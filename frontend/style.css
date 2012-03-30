@@ -1,0 +1,23 @@
+#editor {
+	position: fixed;
+	top: 0;
+	left: 0;
+	width: 50%;
+	height: 100%;
+	background-color: blue;
+	text-align: center;
+	color: white;
+	font-size: 400%;
+}
+
+#view {
+	position: fixed;
+	top: 0;
+	right: 0;
+	width: 50%;
+	height: 100%;
+	background-color: red;
+	text-align: center;
+	color: white;
+	font-size: 400%;
+}
