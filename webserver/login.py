@@ -43,9 +43,10 @@ def success(db):
 	row = db.execute('select token from login where oauth = ?',[tok]).fetchone()
 	if row:
 		token = cPickle.loads(str(row['token']))
-		access_token = sess.obtain_access_token(token)	
+		access_token = sess.obtain_access_token(token)
+		print dir(access_token)
 		cl = client.DropboxClient(sess)
 		response.set_cookie('access_token',access_token,secret = 'secretkey')
-		return "linked account:", str(cl.account_info())
+		redirect('/docs')
 	else:	
 		return 'Something went wrong'

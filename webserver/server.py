@@ -1,6 +1,7 @@
 from bottle import *
 from dropbox import client, rest, session
 from login import *
+from docs import *
 
 @route('/')
 def index():
