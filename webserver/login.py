@@ -47,6 +47,6 @@ def success(db):
 		print dir(access_token)
 		cl = client.DropboxClient(sess)
 		response.set_cookie('access_token',access_token,secret = 'secretkey')
-		redirect('/docs')
+		redirect('/doclist')
 	else:	
 		return 'Something went wrong'
