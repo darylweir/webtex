@@ -6,6 +6,7 @@ function createNewDoc() {
 function showDialog() {
 	$('#dark').show();
 	$('#newdialog').show();
+	$('#newdialog').css('margin-top', (-$('#newdialog').outerHeight() / 2) + 'px')
 }
 
 function hideDialog() {
