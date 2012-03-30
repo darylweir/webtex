@@ -28,8 +28,3 @@ def login():
 @route('/success')
 def success():
 	return 'You successfully logged in.'
-
-
-run(host='localhost', port=8080, debug=True, reloader = True)
-	
-
