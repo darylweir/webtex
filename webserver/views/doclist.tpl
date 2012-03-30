@@ -26,13 +26,39 @@
 		left: 50%;
 		top: 50%;
 		width: 320px;
-		height: 240px;
 		margin-left: -160px;
-		margin-top: -120px;
 		z-index: 100;
 		background-color: white;
 		border: 2px solid #333;
-		border-radius: 5px;
+		border-radius: 10px;
+	}
+
+	#newdialog .title {
+		text-align: center;
+		border-bottom: 1px solid #AAA;
+	}
+
+	#newdialog .content {
+		padding: 0.5em;
+	}
+
+	#newdialog label {
+		margin-right: 1em;
+	}
+
+	#newdialog .buttons {
+		text-align: right;
+		margin: 1em;
+	}
+
+	#newdialog .button {
+		display: inline-block;
+		border: 1px solid #AAA;
+		background-color: #CCC;
+		color: black;
+		padding: 0 0.5em 0 0.5em;
+		cursor: pointer;
+		margin-right: 1em;
 	}
 
 	.toolbar .name {
@@ -90,16 +116,18 @@
 </div>
 <div id="dark" style="display: none"></div>
 <div id="newdialog" style="display: none">
-	<h1 class="title"></h1>
+	<h2 class="title">Create New Document</h2>
 	<div class="content">
-		Name: <input id="newDocName" type="text"></input><br>
-		Template: 
-		<select id="newDocTemplate">
+		<label for="newDocName">Name:</label> <input id="newDocName" name="newDocName" type="text"></input><br>
+		<label for="newDocTemplate">Template:</label>
+		<select id="newDocTemplate" name="newDocTemplate">
 			{{!templates}}
 		</select>
 	</div>
-	<div class="ok">OK</div>
-	<div class="cancel">Cancel</div>
+	<div class="buttons">
+		<div class="ok button">OK</div>
+		<div class="cancel button">Cancel</div>
+	</div>
 </div>
 </body>
 </html>
