@@ -26,6 +26,7 @@ sess = session.DropboxSession(APP_KEY, APP_SECRET, ACCESS_TYPE)
 @route('/login')
 def login(db):
 	request_token = sess.obtain_request_token()
+	print request_token
 
 	p = cPickle.dumps(request_token, cPickle.HIGHEST_PROTOCOL)
 	

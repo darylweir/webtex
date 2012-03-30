@@ -31,19 +31,15 @@ def getDocs():
 		cl = client.DropboxClient(sess)
 		md = cl.metadata('/')
 		print type(md)
-		out = {}
+		out = []
 		contents = md['contents']
-		count = 0
 		for i in range(len(contents)):
 			temp = contents[i]
-			print temp, type(temp)
 			if temp['is_dir']:
 				doc = get_doc(cl,temp)
 				if not doc == None:
-					count += 1
-					out[count]=doc
+					out.append(doc)
 		temp = str(out)
-		print list(temp)
 		return out
 
 def get_doc(cl,temp):
