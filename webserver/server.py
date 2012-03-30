@@ -13,7 +13,7 @@ def index():
 
 @route('/doclist')
 def doclist():
-	name = 'Iain McGinniss'
+	name = user_info()['display_name']
 	template_list = ['LNCS', 'ACM', 'IEEE']
 	doc_list = getDocs()
 	
