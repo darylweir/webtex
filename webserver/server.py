@@ -1,8 +1,10 @@
 from bottle import *
 from dropbox import client, rest, session
 from login import *
-import datetime
 
+from datetime import *
+from docs import *
+from urllib import quote_plus
 
 @route('/')
 def index():
@@ -13,12 +15,9 @@ def index():
 def doclist():
 	name = 'Iain McGinniss'
 	template_list = ['LNCS', 'ACM', 'IEEE']
-	doc_list = [
-	  {'name': 'Paper 1', 'key': '/paper1', 'modified': datetime.datetime.now()},
-	  {'name': 'Hanoi: A Typestate DSL for Java', 'key': '/hanoi', 'modified': datetime.datetime.now() },
-	]
+	doc_list = getDocs()
 	
-	docs_html = ''.join([template('docitem', name=doc['name'], link='/editor?key='+doc['key'], modified=doc['modified']) for doc in doc_list])
+	docs_html = ''.join([template('docitem', name=doc['name'], link='/editor?path=' + quote_plus(doc['key']), modified=doc['modified']) for doc in doc_list])
 	templates_html = ''.join([template('templateitem', name=tmpl) for tmpl in template_list])
 
 	return template('doclist', name=name, docs=docs_html, templates=templates_html)

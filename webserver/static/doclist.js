@@ -1,9 +1,16 @@
 function createNewDoc() {
+	clearDialog();
+	showDialog();
+}
 
-	var content = $('<div>');
-	showDialog('New Document', content, function() {
+function showDialog() {
+	$('#dark').show();
+	$('#newdialog').show();
+}
 
-	});
+function hideDialog() {
+	$('#dark').hide();
+	$('#newdialog').hide();
 }
 
 function clearDialog() {
@@ -12,11 +19,11 @@ function clearDialog() {
 }
 
 function initDialog() {
-	$('#dialog .cancel').click(function() {
-		$('#dialog').hide();
+	$('#newdialog .cancel').click(function() {
+		hideDialog();
 	});
 
-	$('#dialog .ok').click(function() {
+	$('#newdialog .ok').click(function() {
 
 	});
 }

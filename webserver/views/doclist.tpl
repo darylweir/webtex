@@ -11,7 +11,17 @@
 	<script src="static/doclist.js"></script>
 
 	<style type="text/css">
-	.newdialog {
+	#dark {
+		position: fixed;
+		top: 0;
+		left: 0;
+		right: 0;
+		bottom: 0;
+		z-index: 50;
+		background-color: rgba(0,0,0,0.5);
+	}
+
+	#newdialog {
 		position: fixed;
 		left: 50%;
 		top: 50%;
@@ -19,6 +29,10 @@
 		height: 240px;
 		margin-left: -160px;
 		margin-top: -120px;
+		z-index: 100;
+		background-color: white;
+		border: 2px solid #333;
+		border-radius: 5px;
 	}
 
 	.toolbar .name {
@@ -74,6 +88,7 @@
 	WebTeX Copyright &copy; 2012 Iain McGinniss, Daryl Weir, Lauren Norrie.
 	</div>
 </div>
+<div id="dark" style="display: none"></div>
 <div id="newdialog" style="display: none">
 	<h1 class="title"></h1>
 	<div class="content">
