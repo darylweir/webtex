@@ -62,8 +62,12 @@ def get_doc(cl,temp):
 				return {'name':path[slash+1:],'modified':t2['modified'], 'key':path}
 	return None
 
-def putDoc():
-	pass
+def putDoc(docname, template=None):
+	token = request.get_cookie("access_token",secret="secretkey")
+	if token:
+		sess.set_token(token.key,token.secret)
+		cl = client.DropboxClient(sess)
+		cl.file_create_folder(docname)
 
 def templateList():
 	pass
