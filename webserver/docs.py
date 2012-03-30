@@ -63,7 +63,12 @@ def putDoc(docname, template=None):
 	if token:
 		sess.set_token(token.key,token.secret)
 		cl = client.DropboxClient(sess)
-		cl.file_create_folder(docname)
+		try:
+			cl.file_create_folder(docname)
+		except:
+			pass
+		f = file(docname+'.tex','w')
+		cl.put_file('/'+docname+'/'+docname+'.tex', f)
 
 def templateList():
 	pass

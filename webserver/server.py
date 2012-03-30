@@ -19,7 +19,7 @@ def doclist():
 	
 	docs_html = ''.join([template('docitem', name=doc['name'], link='/editor?path=' + quote_plus(doc['key']), modified=doc['modified']) for doc in doc_list])
 	templates_html = ''.join([template('templateitem', name=tmpl) for tmpl in template_list])
-
+	
 	return template('doclist', name=name, docs=docs_html, templates=templates_html)
 
 
