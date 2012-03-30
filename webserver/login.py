@@ -20,6 +20,7 @@ def login():
 	sess = session.DropboxSession(APP_KEY, APP_SECRET, ACCESS_TYPE)
 
 	request_token = sess.obtain_request_token()
+	print request_token
 
 	url = sess.build_authorize_url(request_token, 'http://localhost:8080/success')
 
@@ -27,4 +28,4 @@ def login():
 
 @route('/success')
 def success():
-	return 'You successfully logged in.'
+	redirect('/doclist')
