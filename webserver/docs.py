@@ -14,6 +14,16 @@ ACCESS_TYPE = 'app_folder'
 
 sess = session.DropboxSession(APP_KEY, APP_SECRET, ACCESS_TYPE)
 
+def user_info():
+	token = request.get_cookie("access_token",secret="secretkey")
+	if token:
+		sess.set_token(token.key,token.secret)
+		cl = client.DropboxClient(sess)
+		print cl.account_info()
+		return cl.account_info()
+	else:
+		return None
+
 def getDocs():
 	token = request.get_cookie("access_token",secret="secretkey")
 	if token:
