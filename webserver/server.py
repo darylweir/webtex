@@ -27,9 +27,11 @@ def doclist():
 def createNewDoc():
 	req = request.json
 	#print req
-	#print req['name']
-	#print req['template']
-	return { 'doc_id': 'mydoc' }
+	print req['name']
+	print req['template']
+	putDoc(req['name'],req['template'])
+	redirect('/editor/'+req['name'])
+	#return { 'doc_id': req['name'] }
 
 @route('/editor/<doc_id:path>')
 def editor(doc_id):

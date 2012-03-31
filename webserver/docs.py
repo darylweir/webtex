@@ -2,8 +2,8 @@ from bottle import *
 from bottle_sqlite import SQLitePlugin
 # Include the Dropbox SDK libraries
 from dropbox import client, rest, session
-import sqlite3, cPickle
-import zipfile, StringIO
+import sqlite3, cPickle, os
+import zipfile, StringIO, time
 
 # Get your app key and secret from the Dropbox developer website
 APP_KEY = 'gkucvfe9xptshud'
@@ -95,8 +95,9 @@ def putDoc(docname, template=None):
 			cl.file_create_folder(docname)
 		except:
 			pass
-		f = file(docname+'.tex','w')
+		f = open(docname+'.tex')
 		cl.put_file('/'+docname+'/'+docname+'.tex', f)
+		f.close()
 
 def zip_files(cl, zp, path):
 	md = cl.metadata(path)
