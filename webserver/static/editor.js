@@ -17,8 +17,10 @@ $(window).ready(function() {
     }
 
     var checkForDone = function() {
-        $.post('/job/' + doc_name + '/' + txid, function(data) {
+	console.log('checking');
+        $.post('/job/' + docName + '/' + txid, function(data) {
             if(data.finished) {
+		console.log('notified done');
                 pullChanges();
                 clearInterval(pollId);
             }
@@ -28,7 +30,7 @@ $(window).ready(function() {
     var pushChanges = function() {
     	var content = session.getDocument().getValue();
     	$('#reload').show();
-    	$.post('/doc/' + doc_name, content, function(data) {
+    	$.post('/doc/' + docName, content, function(data) {
     		txid = data.txid;
             pollId = setInterval(checkForDone, 1000);
     	});

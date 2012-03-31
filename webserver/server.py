@@ -5,6 +5,9 @@ from login import *
 from datetime import *
 from docs import *
 from urllib import quote_plus
+import StringIO
+import tempfile
+import os
 
 import browser_producer as bp
 import browser_consumer as bc
@@ -32,7 +35,7 @@ def createNewDoc():
 	#print req
 	print req['name']
 	print req['template']
-	putDoc(req['name'],req['template'])
+	make_doc(req['name'],req['template'])
 	#redirect('/editor/'+req['name'])
 	return { 'doc_id': req['name'] }
 
@@ -67,11 +70,18 @@ def update_document(doc_id):
 
 @post('/job/<doc_name>/<txid>')
 def check_job(doc_name, txid):
-	file = InMemoryFile()
-	if bc.main(file):
-		put_doc('/' + doc_name + '/' + doc_name + '.pdf', file)
+	fff, path = tempfile.mkstemp(suffix='.pdf')
+	if bc.main(fff):
+		file_name = doc_name + '/' + doc_name + '.pdf'
+		print 'storing updated pdf to ' + file_name
+		put_doc(file_name, path)
+                print 'done storing'
+		os.fdopen(fff).close()
+		os.remove(path)
 		return { 'finished': True }
 
+	os.fdopen(fff).close()
+	os.remove(path)
 	return { 'finished': False }
 
 

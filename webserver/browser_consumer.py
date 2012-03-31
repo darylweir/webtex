@@ -67,32 +67,39 @@ def store_message(message_queue_name, message_bucket_name, message_bucket_key, m
 ## S3 File Storage Functions
 ##
 
-def retrieve_file(bucket_name, file_key, file):
+def retrieve_file(bucket_name, file_key, file_name):
   s3 = boto.connect_s3()
   key = s3.get_bucket(bucket_name).get_key(file_key)
-  key.get_contents_to_file(file)
+  key.get_contents_to_filename(file_name)
 
 # Parse request
-def do_some_work(data, file):
+def do_some_work(data, file_name):
   print 'working on data... ', data
-  if data['request'] == 'update':
+  if data['request'] == 'done':
     print 'performing update...'
-    print data   
-    retrieve_file(data['bucket_name'], data['file_path'] + data['file_name'], file)
+    print data
+    bucket_name = 'test_bucket.webtex.com'
+    file_path = 'LATEX0/'
+    file_name = 'temp.zip'
+    #retrieve_file(data['bucket_name'], data['file_path'] + data['file_name'], file)
+    retrieve_file(bucket_name, file_path + file_name, file_name)
+    print 'file should have been retrieved, yaldi'
     return True
-    
+  
+  print 'request != update'
   return False
 
-def main(file):
+def main(file_name):
   data = read_message(message_queue_name_replies)
   if data is not None:
     print 'got data ', data
     #thread.start_new_thread(do_some_work, (data, ))
-    return do_some_work(data, file)
+    return do_some_work(data, file_name)
 
+  print 'naw'
   return False
 
 
 # Main daemon 
-if __name__ == '__main__':
-  main()
+#if __name__ == '__main__':
+#  main()

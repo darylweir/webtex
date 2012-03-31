@@ -1,3 +1,5 @@
+import StringIO, zipfile
+
 class InMemoryFile(object):
    def __init__(self):
        # Create the in-memory file-like object
