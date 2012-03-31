@@ -17,7 +17,7 @@ $(window).ready(function() {
     }
 
     var checkForDone = function() {
-        $.post('/job/' + txid, function(data) {
+        $.post('/job/' + doc_name + '/' + txid, function(data) {
             if(data.finished) {
                 pullChanges();
                 clearInterval(pollId);
@@ -28,7 +28,7 @@ $(window).ready(function() {
     var pushChanges = function() {
     	var content = session.getDocument().getValue();
     	$('#reload').show();
-    	$.post('/doc/hanoi', content, function(data) {
+    	$.post('/doc/' + doc_name, content, function(data) {
     		txid = data.txid;
             pollId = setInterval(checkForDone, 1000);
     	});

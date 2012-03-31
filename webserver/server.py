@@ -6,8 +6,8 @@ from datetime import *
 from docs import *
 from urllib import quote_plus
 
-import ../service/browser_producer as bp
-import ../service/browser_consumer as bc
+import browser_producer as bp
+import browser_consumer as bc
 
 @route('/')
 def index():
@@ -30,9 +30,11 @@ def doclist():
 def createNewDoc():
 	req = request.json
 	#print req
-	#print req['name']
-	#print req['template']
-	return { 'doc_id': 'mydoc' }
+	print req['name']
+	print req['template']
+	putDoc(req['name'],req['template'])
+	#redirect('/editor/'+req['name'])
+	return { 'doc_id': req['name'] }
 
 @route('/editor/<doc_id:path>')
 def editor(doc_id):
@@ -54,7 +56,7 @@ def get_document_pdf(doc_id):
 def update_document(doc_id):
 	content = request.body
 	# 1. push content to dropbox
-
+	put_doc('/' + doc_id + '/' + doc_id + '.tex', content)
 	# 2. get zip of document from dropbox
 	zipped = zip_doc(doc_id)
 	# 3. push zip to S3 & order build on cluster
@@ -63,10 +65,11 @@ def update_document(doc_id):
 		'txid': 'banana'
 	}
 
-@post('/job/<txid>')
-def check_job(txid):
+@post('/job/<doc_name>/<txid>')
+def check_job(doc_name, txid):
 	file = InMemoryFile()
 	if bc.main(file):
+		put_doc('/' + doc_name + '/' + doc_name + '.pdf', file)
 		return { 'finished': True }
 
 	return { 'finished': False }

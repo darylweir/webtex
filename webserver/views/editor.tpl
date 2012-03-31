@@ -6,6 +6,9 @@
 	<script src="/static/ace.js" charset="utf-8"></script>
 	<script src="/static/mode-latex.js" charset="utf-8"></script>
 	<script src="/static/jquery-1.7.2.min.js"></script>
+	<script>
+	var docName = '{{doc_name}}';
+	</script>
 	<script src="/static/editor.js"></script>
 </head>
 <body>
