@@ -116,18 +116,17 @@ def zip_files(cl, zp, path):
 			zp.append(fname,content)
 
 
-
-
-@route('/testzip')
-def ziptest():
+def zip_doc(doc_id):
 	token = request.get_cookie("access_token",secret="secretkey")
 	if token:
 		sess.set_token(token.key,token.secret)
 		cl = client.DropboxClient(sess)
-		path = '/doc1'
+		path = '/' + doc_id
 		myzip = InMemoryZip()
 		zip_files(cl,myzip,path)
-		myzip.writetofile('stuff.zip')
+		return myzip
+
+	return None
 	
 
 def templateList():
