@@ -2,13 +2,13 @@
 <html>
 <head>
 	<title>WebTeX - your documents</title>
-	<link href="static/blueprint.css" rel="stylesheet">
+	<link href="/static/blueprint.css" rel="stylesheet">
 	<link href="http://fonts.googleapis.com/css?family=Crete+Round" rel="stylesheet" type="text/css">
-	<link href="static/jquery.dataTables.css" rel="stylesheet">
-	<link href="static/style.css" rel="stylesheet">
-	<script src="static/jquery-1.7.2.min.js"></script>
-	<script src="static/jquery.dataTables.min.js"></script>
-	<script src="static/doclist.js"></script>
+	<link href="/static/jquery.dataTables.css" rel="stylesheet">
+	<link href="/static/style.css" rel="stylesheet">
+	<script src="/static/jquery-1.7.2.min.js"></script>
+	<script src="/static/jquery.dataTables.min.js"></script>
+	<script src="/static/doclist.js"></script>
 
 	<style type="text/css">
 	#dark {

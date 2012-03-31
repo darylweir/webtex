@@ -18,13 +18,20 @@ def doclist():
 	doc_list = getDocs()
 	
 	docs_html = ''.join([template('docitem', name=doc['name'], link='/editor?path=' + quote_plus(doc['key']), modified=doc['modified']) for doc in doc_list])
-	templates_html = ''.join([template('templateitem', name=tmpl) for tmpl in template_list])
+	templates_html = ''.join([template('templateitem', name=tmpl, tmpl_id=tmpl) for tmpl in template_list])
 
 	return template('doclist', name=name, docs=docs_html, templates=templates_html)
 
+@post('/newdoc')
+def createNewDoc():
+	req = request.json
+	#print req
+	#print req['name']
+	#print req['template']
+	return { 'doc_id': 'mydoc' }
 
-@route('/editor')
-def editor():
+@route('/editor/<doc_id:path>')
+def editor(doc_id):
 	return template('editor')
 
 
