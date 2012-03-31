@@ -25,7 +25,16 @@ function initDialog() {
 	});
 
 	$('#newdialog .ok').click(function() {
-
+		$.ajax('/newdoc', {
+			contentType: 'application/json',
+			type: 'POST',
+			data: JSON.stringify({ 'name': $('#newDocName').val(), 'template': $('#newDocTemplate').val() }),
+			success: function(data) {
+				hideDialog();
+				window.location.replace('/editor/' + data.doc_id );
+			},
+			dataType: 'json'
+		});
 	});
 }
 

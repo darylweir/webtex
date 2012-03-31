@@ -2,9 +2,9 @@
 <html>
 <head>
 	<title>WebTex</title>
-	<link href="static/style.css" rel="stylesheet">
-	<script src="static/ace.js" charset="utf-8"></script>
-	<script src="static/mode-latex.js" charset="utf-8"></script>
+	<link href="/static/style.css" rel="stylesheet">
+	<script src="/static/ace.js" charset="utf-8"></script>
+	<script src="/static/mode-latex.js" charset="utf-8"></script>
 	<script>
     window.onload = function() {
         var editor = ace.edit("editor");

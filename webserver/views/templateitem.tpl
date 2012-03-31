@@ -1,1 +1,1 @@
-<option value="{{id}}">{{name}}</option>
+<option value="{{tmpl_id}}">{{name}}</option>
