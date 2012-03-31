@@ -99,22 +99,28 @@ def make_doc(docname, template=None):
 		f = open(str(docname)+'.tex','w')
 		f.close()
 		f = open(str(docname)+'.tex','r')
-		cl.put_file('/'+docname+'/'+docname+'.tex', f)
+		cl.put_file('/'+docname+'/'+docname+'.tex', f,overwrite=True)
 		f.close()
 		os.remove(docname+'.tex')
 
 def put_doc(path, content):
+	print 'a'
 	token = request.get_cookie("access_token",secret="secretkey")
+	print 'b'
 	if token:
+		print 'c'
 		sess.set_token(token.key,token.secret)
+		print 'd'
 		cl = client.DropboxClient(sess)
-		f = open(path,'w')
-		f.write(content)
-		f.close()
-		f = open(path,'r')
-		cl.put_file(path,f)
-		f.close()
-		os.remove(path)
+		print 'e'
+		#f = open(path,'w')
+		#f.write(content)
+		#f.close()
+		#f = open(path,'r')
+		cl.put_file(path,content,overwrite=True)
+		print 'f'
+		#f.close()
+		#os.remove(path)
 
 def zip_files(cl, zp, path):
 	md = cl.metadata(path)
@@ -129,7 +135,6 @@ def zip_files(cl, zp, path):
 			fname = temp['path'][pos+1:]
 			print fname
 			content = f.read()
-			print content, type(content)
 			zp.append(fname,content)
 
 

@@ -60,6 +60,8 @@ def store_message(message_queue_name, message_bucket_name, message_bucket_key, m
   bucket = s3.get_bucket(message_bucket_name)
   key = bucket.new_key((message_bucket_key + '/%s.json') % str(uuid.uuid4()))
   key.set_contents_from_string(data)
+  print data
+  #key.set_contents_from_filename(data['file_name'])
   message = q.new_message(body=simplejson.dumps({'bucket': bucket.name, 'key': key.name}))
   q.write(message)
 
@@ -71,28 +73,29 @@ def store_file(bucket_name, file_key, file_content):
   s3 = boto.connect_s3()
   bucket = s3.create_bucket(bucket_name)  # bucket names must be unique
   key = bucket.new_key(file_key)
-  key.set_contents_from_file(file_content)
+  key.set_contents_from_filename(file_content)
   key.set_acl('public-read')
 
 def main(local_file):
   create_queue(message_queue_name_request, 120)
   create_bucket(message_bucket_name)
+  local_file.writetofile('temp.zip')
   count=0
   print 'queues are created'
   # TODO Update on server to update zip file to be processed periodically
-  while(True):
-    do_update_message['file_path'] = 'LATEX%i/' % (count)
-    count += 1
-    do_update_message['file_name'] = 'paper.tar.gz'
-    do_update_message['bucket_name'] = 'test_bucket.webtex.com'
-    print 'Updating ' + do_update_message['file_path'] + do_update_message['file_name']
-    store_file(do_update_message['bucket_name'], do_update_message['file_path'] + do_update_message['file_name'], local_file)
-    store_message(message_queue_name_request, message_bucket_name, 'text_key', do_update_message)
-    print 'file stored, message update in queue'
+  do_update_message['file_path'] = 'LATEX%i/' % (count)
+  count += 1
+  do_update_message['file_name'] = 'temp.zip'
+  do_update_message['bucket_name'] = 'test_bucket.webtex.com'
+  print 'Updating ' + do_update_message['file_path'] + do_update_message['file_name']
+  store_file(do_update_message['bucket_name'], do_update_message['file_path'] + do_update_message['file_name'], '/home/hacker-6-06/webtex/webserver/temp.zip')
+  store_message(message_queue_name_request, message_bucket_name, 'text_key', do_update_message)
+  print 'file stored, message update in queue'
+#  os.remove('temp.zip')
 
 
 
 # Main daemon 
-if __name__ == '__main__':
-  main()
-  time.sleep(10) # Timeout in sec
+#if __name__ == '__main__':
+#  main()
+#  time.sleep(10) # Timeout in sec
