@@ -86,7 +86,7 @@ def get_doc_pdf(doc_id):
 
 	return '???!?'
 
-def putDoc(docname, template=None):
+def make_doc(docname, template=None):
 	token = request.get_cookie("access_token",secret="secretkey")
 	if token:
 		sess.set_token(token.key,token.secret)
@@ -95,9 +95,25 @@ def putDoc(docname, template=None):
 			cl.file_create_folder(docname)
 		except:
 			pass
-		f = open(docname+'.tex')
+		f = open(str(docname)+'.tex','w')
+		f.close()
+		f = open(str(docname)+'.tex','r')
 		cl.put_file('/'+docname+'/'+docname+'.tex', f)
 		f.close()
+		os.remove(docname+'.tex')
+
+def put_doc(path, content):
+	token = request.get_cookie("access_token",secret="secretkey")
+	if token:
+		sess.set_token(token.key,token.secret)
+		cl = client.DropboxClient(sess)
+		f = open(path,'w')
+		f.write(content)
+		f.close()
+		f = open(path,'r')
+		cl.put_file(path,f)
+		f.close()
+		os.remove(path)
 
 def zip_files(cl, zp, path):
 	md = cl.metadata(path)

@@ -30,8 +30,8 @@ def createNewDoc():
 	print req['name']
 	print req['template']
 	putDoc(req['name'],req['template'])
-	redirect('/editor/'+req['name'])
-	#return { 'doc_id': req['name'] }
+	#redirect('/editor/'+req['name'])
+	return { 'doc_id': req['name'] }
 
 @route('/editor/<doc_id:path>')
 def editor(doc_id):
