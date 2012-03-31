@@ -4,18 +4,22 @@ body {
 
 #editor {
 	position: fixed;
-	top: 50px;
+	top: 10%;
 	left: 0;
 	width: 50%;
-	height: 95%;
+	height: 90%;
 }
 
 #view {
 	position: fixed;
-	top: 50px;
+	top: 10%;
 	right: 0;
 	width: 50%;
-	height: 95%;
+	height: 90%;
+}
+
+#reload {
+	float: right;
 }
 
 #editor-header {
@@ -23,7 +27,7 @@ body {
 	top: 0;
 	left: 0;
 	right: 0;
-	height: 5%;
+	height: 10%;
 	padding: 0 5px 0 5px;
 }
 

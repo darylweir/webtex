@@ -49,14 +49,18 @@ def get_document_pdf(doc_id):
 
 @post('/doc/<doc_id>')
 def update_document(doc_id):
+	content = request.body
 	# 1. push content to dropbox
+
 	# 2. get zip of document from dropbox
+	zipped = zip_doc(doc_id)
 	# 3. push zip to S3
+	
 	# 4. order build on cluster
+	
 	# 5. when complete, respond with info
 	return {
 		'success': True,
-		'pdf': 'http://www.selab.isti.cnr.it/ws-mate/example.pdf',
 		'errors': []
 	}
 
