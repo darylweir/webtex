@@ -5,7 +5,6 @@ import os, thread, time
 ## Functions to retrieve and save updated pdfs from Amazon s3.
 ##
 
-local_file_store = '<local_file>' ## TODO: Update on server
 message_queue_name_request = 'webtex-tex-test-requests'
 message_queue_name_replies = 'webtex-tex-test-replies'
 
@@ -68,33 +67,32 @@ def store_message(message_queue_name, message_bucket_name, message_bucket_key, m
 ## S3 File Storage Functions
 ##
 
-def retrieve_file(bucket_name, file_key, filename):
+def retrieve_file(bucket_name, file_key, file):
   s3 = boto.connect_s3()
   key = s3.get_bucket(bucket_name).get_key(file_key)
-  key.get_contents_to_filename('/' + filename)
-
-def store_file(bucket_name, file_key, filename):
-  s3 = boto.connect_s3()
-  bucket = s3.create_bucket(bucket_name)  # bucket names must be unique
-  key = bucket.new_key(file_key)
-  key.set_contents_from_filename(filename)
-  key.set_acl('public-read')
+  key.get_contents_to_file(file)
 
 # Parse request
-def do_some_work(data):
+def do_some_work(data, file):
   print 'working on data... ', data
   if data['request'] == 'update':
     print 'performing update...'
     print data   
-    retrieve_file(data['bucket_name'], data['file_path'] + data['file_name'], local_file)   
-    print 'updated!'
-    #thread.exit()
+    retrieve_file(data['bucket_name'], data['file_path'] + data['file_name'], file)
+    return True
+    
+  return False
+
+def main(file):
+  data = read_message(message_queue_name_replies)
+  if data is not None:
+    print 'got data ', data
+    #thread.start_new_thread(do_some_work, (data, ))
+    return do_some_work(data, file)
+
+  return False
+
 
 # Main daemon 
 if __name__ == '__main__':
-	while(True):
-		data = read_message(message_queue_name_replies)
-		if data is not None:
-			print 'got data ', data
-			#thread.start_new_thread(do_some_work, (data, ))
-			do_some_work(data)
+  main()

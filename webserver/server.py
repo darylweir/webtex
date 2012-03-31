@@ -6,6 +6,9 @@ from datetime import *
 from docs import *
 from urllib import quote_plus
 
+import ../service/browser_producer as bp
+import ../service/browser_consumer as bc
+
 @route('/')
 def index():
 	return template('index')
@@ -54,15 +57,19 @@ def update_document(doc_id):
 
 	# 2. get zip of document from dropbox
 	zipped = zip_doc(doc_id)
-	# 3. push zip to S3
-	
-	# 4. order build on cluster
-	
-	# 5. when complete, respond with info
+	# 3. push zip to S3 & order build on cluster
+	bp.main(zipped)
 	return {
-		'success': True,
-		'errors': []
+		'txid': 'banana'
 	}
+
+@post('/job/<txid>')
+def check_job(txid):
+	file = InMemoryFile()
+	if bc.main(file):
+		return { 'finished': True }
+
+	return { 'finished': False }
 
 
 @route('/static/<path:path>')

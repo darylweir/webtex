@@ -8,13 +8,29 @@ $(window).ready(function() {
     session.setMode(new LatexMode());
 
     var timer = null;
+    var txid = null;
+    var pollId = null;
+
+    var pullChanges = function() {
+        $('#view').attr('src', function(i,val) { return val; });
+        $('#reload').hide();
+    }
+
+    var checkForDone = function() {
+        $.post('/job/' + txid, function(data) {
+            if(data.finished) {
+                pullChanges();
+                clearInterval(pollId);
+            }
+        });
+    }
 
     var pushChanges = function() {
     	var content = session.getDocument().getValue();
     	$('#reload').show();
     	$.post('/doc/hanoi', content, function(data) {
-    		$('#view').attr('src', function(i,val) { return val; });
-    		$('#reload').hide();
+    		txid = data.txid;
+            pollId = setInterval(checkForDone, 1000);
     	});
 	}
 	
