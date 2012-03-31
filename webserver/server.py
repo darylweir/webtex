@@ -17,7 +17,7 @@ def doclist():
 	template_list = ['LNCS', 'ACM', 'IEEE']
 	doc_list = getDocs()
 	
-	docs_html = ''.join([template('docitem', name=doc['name'], link='/editor?path=' + quote_plus(doc['key']), modified=doc['modified']) for doc in doc_list])
+	docs_html = ''.join([template('docitem', name=doc['name'], link='/editor/' + doc['doc_id'], modified=doc['modified']) for doc in doc_list])
 
 	templates_html = ''.join([template('templateitem', name=tmpl, tmpl_id=tmpl) for tmpl in template_list])
 
@@ -33,7 +33,32 @@ def createNewDoc():
 
 @route('/editor/<doc_id:path>')
 def editor(doc_id):
-	return template('editor')
+	content = get_doc_content(doc_id)
+	print content
+	return template('editor', doc_name=doc_id, doc_content=content)
+
+@get('/doc/<doc_id>/tex')
+def get_document_tex(doc_id):
+	response.content_type = 'application/x-latex'
+	return get_doc_content(doc_id)
+
+@get('/doc/<doc_id>/pdf')
+def get_document_pdf(doc_id):
+	response.content_type = 'application/pdf'
+	return get_doc_pdf(doc_id)
+
+@post('/doc/<doc_id>')
+def update_document(doc_id):
+	# 1. push content to dropbox
+	# 2. get zip of document from dropbox
+	# 3. push zip to S3
+	# 4. order build on cluster
+	# 5. when complete, respond with info
+	return {
+		'success': True,
+		'pdf': 'http://www.selab.isti.cnr.it/ws-mate/example.pdf',
+		'errors': []
+	}
 
 
 @route('/static/<path:path>')

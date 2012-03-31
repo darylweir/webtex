@@ -51,7 +51,7 @@
 		margin: 1em;
 	}
 
-	#newdialog .button {
+	.button {
 		display: inline-block;
 		border: 1px solid #AAA;
 		background-color: #CCC;

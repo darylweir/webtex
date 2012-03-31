@@ -53,11 +53,38 @@ def get_doc(cl,temp):
 			path = t2['path']
 			dot = path.rfind('.')
 			slash = path.rfind('/')
+			doc_name = path[path.find('/')+1:slash]
 			fname = path[slash:dot]
 			ext = path[dot:]
 			if fname == temp['path'] and ext == '.tex':
-				return {'name':path[slash+1:],'modified':t2['modified'], 'key':path}
+				return {'name':doc_name,'modified':t2['modified'], 'doc_id':doc_name}
 	return None
+
+def get_doc_content(doc_id):
+	token = request.get_cookie("access_token",secret="secretkey")
+	if token:
+		sess.set_token(token.key,token.secret)
+		cl = client.DropboxClient(sess)
+		f, md = cl.get_file_and_metadata('/' + doc_id + '/' + doc_id + '.tex')
+		if not md:
+			return None
+
+		return f.read()
+
+	return None
+
+def get_doc_pdf(doc_id):
+	token = request.get_cookie("access_token",secret="secretkey")
+	if token:
+		sess.set_token(token.key,token.secret)
+		cl = client.DropboxClient(sess)
+		f, md = cl.get_file_and_metadata('/' + doc_id + '/' + doc_id + '.pdf')
+		if not md:
+			return '???'
+
+		return f.read()
+
+	return '???!?'
 
 def putDoc(docname, template=None):
 	token = request.get_cookie("access_token",secret="secretkey")

@@ -14,7 +14,14 @@
     </script>
 </head>
 <body>
-	<div id="editor"></div>
-	<div id="view">VIEW</div>
+	<div id="editor-header">
+		<div style="float: right">
+			<div class="save button">Save</div>
+		</div>
+		<span class="doc-name">{{doc_name}}</span><br/>
+	</div>
+	<div id="editor">{{doc_content}}</div>
+	<iframe src="/doc/{{doc_name}}/pdf"
+		    frameborder="0" id="view"></iframe>
 </body>
 </html>
